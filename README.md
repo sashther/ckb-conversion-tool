@@ -1,7 +1,7 @@
 ckb-conversion-tool
 ===================
 
-Scripts for converting between character sets used in Central Kurdish writing
+A script for converting non-standard Central Kurdish texts to standard mappings.
 
 
 Background
@@ -24,25 +24,29 @@ This converter was created by looking at the fonts in a font editor, current fon
 I only briefly looked at direction-changing chars such as RTL marks, they seem to serve the same function as ZWNJ a lot of times, and are totally useless other times (perhaps many are accidental). These chars are changed independent of the option - the code needs to be tinkered with if you wish to do anything differently.
 
 Two additional informational files have been included:
-* char-set-vs-font.jpg illustrates differences in output depending on font.
-* sample-text can be used with the script to check if it works as it should.
+* *char-set-vs-font.jpg* illustrates differences in output depending on font, as is seen further down.
+* *sample-text* can be used with the script to check if it works as it should.
 
 Options
 ===================
 
-:fontIn: The font or character mapping of the input text
+**fontIn**: The font or character mapping of the input text
 * 0: Ali-K
 * 1: Ali-K web. This is a variant of Ali-K that have slightly different mapping.
-* 2: Dilan. Experimental only! This one seems to support an all together different keyboard layout than the Ali-K ones. Therefore character mappings are wildly different.
+* 2: Dilan. ***Experimental only!*** This one seems to support an all together different keyboard layout than the Ali-K ones. Therefore character mappings are wildly different.
 
-:standardize: Whether to standardize (or stay close to rendering)?
+**standardize**: Whether to standardize (or stay close to rendering)?
 * 0: Retains some chars where they might have a visual effect.
 * 1: Removes non-standard and unneccessary format chars and more like ZWNJ, ZWJ and Tatweel in many places.
 
-:orthCheck: Do minor orthographical checking?
+**orthCheck**: Do minor orthographical checking?
 * 0: No
 * 1: Yes, changes initial Rehs to thick Rehs, initial double Waws to one Waw and fixes some spacing.
 
-:hehOut: Char(s) to output Hehs with
+**hehOut**: Char(s) to output Hehs with
 * 0: Heh+Tatweel at end of words, heh otherwise (standard).
 * 1: Heh Doachashmee (not on the standard CKB keyboard).
+
+Illustration of differences in output
+=====================================
+![Differences in output of Kurdish texts in Arabic script depending on font](/char-set-vs-font.jpg "Differences in output: 1.US, 2.CKB, 3.AR-101, 4.AR-101 w. Ali")
