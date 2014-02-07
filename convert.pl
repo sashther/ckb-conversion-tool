@@ -8,62 +8,59 @@ binmode STDIN, ":utf8";
 binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
 
-while (<STDIN>) {
-	chomp;
+#
+# OPTIONS
+#
 	
-	#
-	# OPTIONS
-	#
-	
-	# Font (or character mapping) of the input text
-	# 0: Ali-K, 1: Ali-K web, 2: Dilan.
-	my $fontIn = 0;
+# Font (or character mapping) of the input text
+# 0: Ali-K, 1: Ali-K web, 2: Dilan.
+my $fontIn = 0;
 
-	# Standardize (or stay close to rendering)?
-	# 0: Retains some chars where they might have a visual effect.
-	# 1: Removes non-standard and unneccessary format chars	and more like
-	# ZWNJ, ZWJ and Tatweel in many places.
-	my $standardize = 1;
+# Standardize (or stay close to rendering)?
+# 0: Retains some chars where they might have a visual effect.
+# 1: Removes non-standard and unneccessary format chars	and more like
+# ZWNJ, ZWJ and Tatweel in many places.
+my $standardize = 1;
 
-	# Do minor ortographical checking?
-	# Changes initial Rehs to thick Rehs, initial double Waws to one Waw
-	# and fixes some spacing.
-	my $orthCheck = 1;
+# Do minor ortographical checking?
+# Changes initial Rehs to thick Rehs, initial double Waws to one Waw
+# and fixes some spacing.
+my $orthCheck = 1;
 
-	# Char(s) to output hehs with
-	# 0: Heh+Tatweel at end of words, heh otherwise (standard).
-	# 1: Heh Doachashmee (not on the standard CKB keyboard).
-	my $hehOut = 0;
+# Char(s) to output hehs with
+# 0: Heh+Tatweel at end of words, heh otherwise (standard).
+# 1: Heh Doachashmee (not on the standard CKB keyboard).
+my $hehOut = 0;
 	
-	#
-	# GENERAL REGEXES
-	#
+#
+# GENERAL REGEXES
+#
 	
-	my $b = '[^\p{IsArabic}\p{Mn}\p{Cf}\x{0640}]'; # Word boundary
-	my $b2 = '[^\p{IsArabic}\p{Mn}\p{Cf}]'; # Word boundary variant
-	my $treatAsZWNJ = "\x{200E}\x{200F}\x{2028}-\x{202F}\x{2060}\x{FEFF}";
-	my $nonJoiningLetters =	"\x{0627}\x{062F}\x{0631}\x{0632}\x{0648}"
+my $b = '[^\p{IsArabic}\p{Mn}\p{Cf}\x{0640}]'; # Word boundary
+my $b2 = '[^\p{IsArabic}\p{Mn}\p{Cf}]'; # Word boundary variant
+my $treatAsZWNJ = "\x{200E}\x{200F}\x{2028}-\x{202F}\x{2060}\x{FEFF}";
+my $nonJoiningLetters =	"\x{0627}\x{062F}\x{0631}\x{0632}\x{0648}"
 	 . "\x{0695}\x{0698}\x{06C6}\x{06D5}"; # Non-joining initially
-	my $joiningLetters = "\x{0628}\x{062A}\x{062D}\x{062E}\x{0633}\x{0634}"
+my $joiningLetters = "\x{0628}\x{062A}\x{062D}\x{062E}\x{0633}\x{0634}"
 	 . "\x{0639}\x{063A}\x{0641}\x{0642}\x{0643}\x{0644}\x{0645}\x{0646}"
 	 . "\x{0647}\x{067E}\x{0686}\x{06A4}\x{06A9}\x{06AF}\x{06B5}\x{06BE}"
 	 . "\x{06CC}\x{06CE}";
 	
-	# Transform in Arial when preceded by joining character (varies by font).
-	my $transJoiningLetters = "\x{0626}\x{0627}\x{062C}\x{062D}\x{062E}"
+# Transform in Arial when preceded by joining character (varies by font).
+my $transJoiningLetters = "\x{0626}\x{0627}\x{062C}\x{062D}\x{062E}"
 	 . "\x{0639}\x{063A}\x{0647}\x{0686}\x{06A9}\x{06AF}\x{06BE}\x{06CC}"
 	 . "\x{06CE}\x{06D5}"; 
 	
-	my $tempHamza = "#h4mz4#"; # Temp char to use for intentional Hamzas
+my $tempHamza = "#h4mz4#"; # Temp char to use for intentional Hamzas
 	
-	# Temp char to use for beginning of line, must match /^(?=[\s\r\n])/
-	# when added. The word boundaries in this script are variable which
-	# Perl doesn't allow in look-behinds. We therefore do this to make it
-	# easier for ourselves and later revert it.
-	my $tempCaret = "\x{2003}";
+# Temp char to use for beginning of line, must match /^(?=[\s\r\n])/
+# when added. The word boundaries in this script are variable which
+# Perl doesn't allow in look-behinds. We therefore do this to make it
+# easier for ourselves and later revert it.
+my $tempCaret = "\x{2003}";
 
-	# Format chars to clean up
-	my $cfToClean =
+# Format chars to clean up
+my $cfToClean =
 	  '(?<=[^\p{IsArabic}\p{Cf}\p{Mn}])(?:[\x{200D}\x{200C}]*\x{200C}|[\x{200D}\x{200C}]*\x{200D}+(?![\p{Mn}\x{200D}]*[$transJoiningLetters]))'
 	. '|(?<=[^\p{IsArabic}\p{Cf}\p{Mn}]\p{Mn})(?:[\x{200D}\x{200C}]*\x{200C}|[\x{200D}\x{200C}]*\x{200D}+(?![\p{Mn}\x{200D}]*[$transJoiningLetters]))' # Above one + diacritic
 	. '|(?<!\x{0647})\x{200C}([\x{200C}\x{200D}]*\x{200C})?(?=\p{Mn}*[^\p{IsArabic}\p{Cf}\p{Mn}\x{0640}]|$)'
@@ -72,6 +69,9 @@ while (<STDIN>) {
 	. '|(?<=[$nonJoiningLetters])\x{200C}(?:[\x{200C}\x{200D}]*\x{200C})?'
 	. '|(?<=[$nonJoiningLetters]\p{Mn})\x{200C}(?:[\x{200C}\x{200D}]*\x{200C})?'; # Above one + diacritic
 
+while (<STDIN>) {
+	chomp;
+	
 	#
 	# CONVERSION BEGIN
 	# The full names of all letters are "Arabic letter XXX",
