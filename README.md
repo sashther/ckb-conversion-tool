@@ -42,7 +42,7 @@ Options
 * 0: No
 * 1: Yes (changes initial Rehs to thick Rehs, initial double Waws to one Waw).
 
-**fixSpacing**: Fix spacing a bit? (before and after some punctuation marks)
+**fixSpacing**: Fixes spacing before and after some punctuation marks, this included parenthesis and brackets. Modify $removeSpacingBefore and $removeSpacingAfter to suit needs.
 * 0: No
 * 1: Yes
 

@@ -33,7 +33,9 @@ my $convDigits = 1;
 # 1: Yes
 my $orthCheck = 1;
 
-# Fix spacing a bit? (before and after some punctuation marks)
+# Fix spacing a bit? Fixes spacing before and after some punctuation marks,
+# this included parenthesis and brackets. Modify $removeSpacingBefore and
+# $removeSpacingAfter to suit your needs.
 # 0: No
 # 1: Yes.
 my $fixSpacing = 1;
@@ -70,6 +72,12 @@ my $tempHamza = "#h4mz4#"; # Temp char to use for intentional Hamzas
 # skip the variable look-behinds and later revert the changes.
 # $tempCaret must not occur in the original text!
 my $tempCaret = "\x{2003}";
+
+# Characters to remove spacing before if $fixSpacing is enabled
+my $removeSpacingBefore = '[!\),:;?\]\x{060C}\x{061B}\x{061F}]|\.(?!\.)';
+
+# Characters to remove spacing after if $fixSpacing is enabled
+my $removeSpacingAfter = '[\(\[]';
 
 # Format chars to clean up
 my $cfToClean =
@@ -258,8 +266,11 @@ while (<STDIN>) {
 
 	if ($fixSpacing) {		
 		# Remove spaces before certain punctuation marks
-		s/\x{0020}+(?=[,!?;:\x{060C}\x{061B}\x{061F}]|\.(?!\.))//g;
+		s/\x{0020}+(?=$removeSpacingBefore)//g;
 
+		# Remove spaces after certain punctuation marks
+		s/($removeSpacingAfter)\x{0020}+/$1/g;
+		
 		# Add space after some punctuation characters
 		s/([;:,!?\x{060C}\x{061B}\x{061F}])(?=\p{Letter})/$1\x{0020}/g;
 	}

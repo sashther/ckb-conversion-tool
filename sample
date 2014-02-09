@@ -29,6 +29,7 @@ Before		After (standardize + orthography check)
 بكةن‌ـ		بکەن		# Final Tatweel preceded by ZWNJ
 دەی،وەرە!ئاخ	دەی، وەرە! ئاخ	# Punctuation spacing
 دەی:وەرە . ئاخ	دەی: وەرە. ئاخ	# Punctuation spacing
+( یەک ) [ دوو ]	(یەک) [دوو]	# Parenthesis spacing
 ۰۱۲۳۵۷۸۹	٠١٢٣٥٧٨٩	# Digits
 
 
