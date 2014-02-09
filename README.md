@@ -40,7 +40,7 @@ Options
 
 **orthCheck**: Do minor orthographical checking?
 * 0: No
-* 1: Yes (changes initial Rehs to thick Rehs, initial double Waws to one Waw and fixes some spacing).
+* 1: Yes (changes initial Rehs to thick Rehs, initial double Waws to one Waw).
 
 **fixSpacing**: Fix spacing a bit? (before and after some punctuation marks)
 * 0: No
