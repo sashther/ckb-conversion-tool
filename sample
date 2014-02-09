@@ -27,12 +27,15 @@ Before		After (standardize + orthography check)
 سك‍		سک
 لـآ		لێ
 بكةن‌ـ		بکەن		# Final Tatweel preceded by ZWNJ
+دەی،وەرە!ئاخ	دەی، وەرە! ئاخ	# Punctuation spacing
+دەی:وەرە . ئاخ	دەی: وەرە. ئاخ	# Punctuation spacing
+۰۱۲۳۵۷۸۹	٠١٢٣٥٧٨٩	# Digits
 
 
 Longer examples
 ===================
 
-* Before:
+Before:
 ديسان لؤذيكي دروست لةسةر ئةو بةلَطانةي لةبةردةستدان ثيَويستة ريَطة بةكةساني ذيرو تيَرِاماو بدات لةسةر راستييةكاني ثةيوةست بةكةركووك ريَكبكةون و هاوكاتيش هةنديَك خورافة كة ‌ــ‌ـ بةشيَوةيةكي ئابرِوبةرانة طوتارةكة دةشيَويَنن، لةباربةرن.
 
 After (standardize + orthography check):

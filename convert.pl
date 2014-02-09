@@ -12,24 +12,35 @@ binmode STDERR, ":utf8";
 # OPTIONS
 #
 	
-# Font (or character mapping) of the input text
+# The font or character mapping of the input text
 # 0: Ali-K, 1: Ali-K web, 2: Dilan.
 my $fontIn = 0;
 
 # Standardize (or stay close to rendering)?
-# 0: Retains some chars where they might have a visual effect.
-# 1: Removes non-standard and unneccessary format chars	and more like
-# ZWNJ, ZWJ and Tatweel in many places.
+# 0: Retain (some) chars where they might have a visual effect.
+# 1: Remove non-standard/unneccessary format chars etc. in many places
+# (ZWNJ, ZWJ and Tatweel and more).
 my $standardize = 1;
 
+# Normalize extended Arabic-Indic digits?
+# 0: No
+# 1: Yes (4 and 6 are skipped as they look different)
+my $convDigits = 1;
+
 # Do minor ortographical checking?
-# Changes initial Rehs to thick Rehs, initial double Waws to one Waw
-# and fixes some spacing.
+# Initial Reh => thick Reh and initial double Waw => one Waw.
+# 0: No
+# 1: Yes
 my $orthCheck = 1;
 
+# Fix spacing a bit? (before and after some punctuation marks)
+# 0: No
+# 1: Yes.
+my $fixSpacing = 1;
+
 # Char(s) to output hehs with
-# 0: Heh+Tatweel at end of words, heh otherwise (standard).
-# 1: Heh Doachashmee (not on the standard CKB keyboard).
+# 0: Heh+Tatweel at end of words, heh otherwise (standard)
+# 1: Heh Doachashmee
 my $hehOut = 0;
 	
 #
@@ -53,10 +64,11 @@ my $transJoiningLetters = "\x{0626}\x{0627}\x{062C}\x{062D}\x{062E}"
 	
 my $tempHamza = "#h4mz4#"; # Temp char to use for intentional Hamzas
 	
-# Temp char to use for beginning of line, must match /^(?=[\s\r\n])/
-# when added. The word boundaries in this script are variable which
-# Perl doesn't allow in look-behinds. We therefore do this to make it
-# easier for ourselves and later revert it.
+# Temp char to use for "beginning of line", must match /^(?=[\s\r\n])/
+# when added. Perl does not allow variable look-behinds, which is needed to
+# find some bad word boundaries. As a compromise we add this extra step,
+# skip the variable look-behinds and later revert the changes.
+# $tempCaret must not occur in the original text!
 my $tempCaret = "\x{2003}";
 
 # Format chars to clean up
@@ -225,15 +237,31 @@ while (<STDIN>) {
 
 	s/[\x{064E}\x{0651}]+[\x{0644}\x{06B5}]/\x{06B5}/g; # Lam with small v
 
+	if ($convDigits) {
+		s/\x{06F0}/\x{0660}/g; # 0
+		s/\x{06F1}/\x{0661}/g; # 1
+		s/\x{06F2}/\x{0662}/g; # 2
+		s/\x{06F3}/\x{0663}/g; # 3
+		s/\x{06F5}/\x{0665}/g; # 5
+		s/\x{06F7}/\x{0667}/g; # 7
+		s/\x{06F8}/\x{0668}/g; # 8
+		s/\x{06F9}/\x{0669}/g; # 9
+	}
+
 	if ($orthCheck) {
 		# Initial Rehs -> Reh with small v below.
 		s/(?<=$b)[\p{Cf}\p{Mn}]*\x{0631}(?=[\p{Mn}\p{Cf}\x{0640}]*\p{IsArabic})/\x{0695}/g;
 
 		# Initial double Waw -> Waw.
 		s/(?<=$b)\x{0648}{2,}+(?=[\p{Cf}\x{0640}]*\p{IsArabic})/\x{0648}/g;
-		
+	}
+
+	if ($fixSpacing) {		
 		# Remove spaces before certain punctuation marks
 		s/\x{0020}+(?=[,!?;:\x{060C}\x{061B}\x{061F}]|\.(?!\.))//g;
+
+		# Add space after some punctuation characters
+		s/([;:,!?\x{060C}\x{061B}\x{061F}])(?=\p{Letter})/$1\x{0020}/g;
 	}
 
 	if ($standardize) {
