@@ -50,7 +50,7 @@ Options
 * 0: Heh+Tatweel at end of words, heh otherwise (standard).
 * 1: Heh Doachashmee (not on the standard CKB keyboard).
 
-**convDigits**: Normalize extended Arabic-Indic digits?
+**convertDigits**: Normalize extended Arabic-Indic digits?
 * 0: No
 * 1: Yes; 4 and 6 are skipped as they look different. 
 

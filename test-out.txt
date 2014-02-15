@@ -1,3 +1,37 @@
+Standard Ali-K snippets
+===================
+
+پڕچێژ
+بێوڵات		# ێ preceded by ل becomes ا.
+بەڵێ		# Not بەڵا
+پێڵاو
+بگۆڕنەوە
+مریشکێک
+
+
+Non-standard or badly converted Ali-K snippets
+======================================
+
+سەرەو		# Heh+ZWNJ followed by and conjunction.
+لەگەڵ
+ڕۆژنامە
+ڕۆژنامە		# The before text ends in heh, which is fixed
+ئۆهـ ئۆهـ		# Special words ending in heh are kept, unlike the above.
+گوناهـ گوناهـ	# Special words ending in Heh (will not be spell checked)
+گوناهـ بەهـ ئاهـ	# Special words ending in Heh
+پەنجە		# Tatweel and random ZWNJs.
+لەوێ		# ZWJs, keep the last one when standardize is off.
+لەوێ		# Remove all ZWNJ that have no effect.
+ماڵ ــ		# Tatweels surrounded by ZWNJ.
+ماڵ ــ		# Tatweels.
+سک		# The ZWJ is removed.
+لێ
+بکەن		# Final Tatweel preceded by ZWNJ
+دەی، وەرە! ئاخ	# Punctuation spacing
+دەی: وەرە. ئاخ	# Punctuation spacing
+(یەک) [دوو]	# Parenthesis spacing
+٠١٢٣٥٧٨٩	# Digits, only if convertDigits is enabled
+
 دیسان لۆژیکی دروست لەسەر ئەو بەڵگانەی لەبەردەستدان پێویستە ڕێگە بەکەسانی ژیرو تێڕاماو بدات لەسەر ڕاستییەکانی پەیوەست بەکەرکووک ڕێکبکەون و هاوکاتیش هەندێک خورافە کە ـــ بەشێوەیەکی ئابڕوبەرانە گوتارەکە دەشێوێنن، لەباربەرن.
 
 نا، ئە ئێستا دەیەوێ گیانی خۆی ڕزگار کا! بۆ ئەو عەبا شۆڕەت پێ لەبەر کردووە؟

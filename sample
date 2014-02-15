@@ -17,21 +17,22 @@ Before		After (standardize + orthography check)
 سه‌ره‌و‌		سەرەو		# ‌Heh+ZWNJ followed by and conjunction.
 لةطةلّ		لەگەڵ
 رٶژنامە		ڕۆژنامە
-ڕۆژنامه		ڕۆژنامە		# The first one ends in heh.
-ئۆه		ئۆهـ		# Special words ending in heh are kept, unlike the above.
+ڕۆژنامه		ڕۆژنامە		# The before text ends in heh, which is fixed
+ئۆه ئۆةـ		ئۆهـ ئۆهـ		# Special words ending in heh are kept, unlike the above.
+طوناة گوناه‌	گوناهـ گوناهـ	# Special words ending in Heh (will not be spell checked)
+گوناە بەة ئاه	گوناهـ بەهـ ئاهـ	# Special words ending in Heh
 ‌پةنــج‌ة		پەنجە		# Tatweel and random ZWNJs.
 لە‌‍و‍ێ		لەو‍ێ		# ZWJs, keep the last one when standardize is off.
 لە‌و‌ێ‌		لەوێ		# Remove all ZWNJ that have no effect.
 م‌ـ‌ـ‌اڵ ‌ـ‌ـ‌		ماڵ ــ		# Tatweels surrounded by ZWNJ.
 مــاڵ ــ		ماڵ ــ		# Tatweels.
-سك‍		سک
-لـآ		لێ
+سك‍		سک		# The ZWJ is removed.
+لـآ		لێ		
 بكةن‌ـ		بکەن		# Final Tatweel preceded by ZWNJ
 دەی،وەرە!ئاخ	دەی، وەرە! ئاخ	# Punctuation spacing
 دەی:وەرە . ئاخ	دەی: وەرە. ئاخ	# Punctuation spacing
 ( یەک ) [ دوو ]	(یەک) [دوو]	# Parenthesis spacing
-۰۱۲۳۵۷۸۹	٠١٢٣٥٧٨٩	# Digits
-
+۰۱۲۳۵۷۸۹	٠١٢٣٥٧٨٩	# Digits, only if convertDigits is enabled
 
 Longer examples
 ===================
