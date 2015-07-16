@@ -20,7 +20,7 @@ my $fontIn = 0;
 # 0: Retain (some) chars where they might have a visual effect.
 # 1: Remove non-standard/unneccessary format chars etc. in many places
 # (ZWNJ, ZWJ and Tatweel and more).
-my $standardize = 1;
+my $standardize = 0;
 
 # Normalize extended Arabic-Indic digits?
 # 0: No
@@ -31,7 +31,7 @@ my $convertDigits = 1;
 # Initial Reh => thick Reh and initial double Waw => one Waw.
 # 0: No
 # 1: Yes
-my $orthCheck = 1;
+my $orthCheck = 0;
 
 # Fix spacing a bit? Fixes spacing before and after some punctuation marks,
 # this included parenthesis and brackets. Modify $removeSpacingBefore and
